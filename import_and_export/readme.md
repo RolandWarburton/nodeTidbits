@@ -1,4 +1,4 @@
-#ES6 exporting and importing modules
+# ES6 exporting and importing modules
 
 should be included in package.json:	
 "type": "module",

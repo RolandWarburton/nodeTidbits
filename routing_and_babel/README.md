@@ -16,11 +16,11 @@ node_routing/
 ├── page2.html
 └── 404.html
 
-##what does .babelrc do?
+## what does .babelrc do?
 this is part of the [babel setup](https://babeljs.io/en/setup#installation).
 this sets the env preset, which enables transforms for ES2015+.
 
-##what is the purpose of /src and /lib
+## what is the purpose of /src and /lib
 /src contains ES6 code and is converted to ES5 for babel with the scripts inside package.json.
 
 

@@ -14,3 +14,5 @@ you can run most node projects with ```node --experimental-modules main.js``` (i
 * routing and babel
 	* babel demonstation
 	* routing demonstation
+* express and node
+	* express setup with routing (no templating yet)

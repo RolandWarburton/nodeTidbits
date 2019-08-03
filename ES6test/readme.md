@@ -1,2 +1,2 @@
-ES6 test.
+# ES6 test
 currently with no babel

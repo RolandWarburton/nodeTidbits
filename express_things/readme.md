@@ -1,4 +1,4 @@
-# Rxpress and Node
+# Express and Node
 running through a [tutorial](https://youtu.be/L72fhGm1tfE)
 
 ## installing dev dependencies

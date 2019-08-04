@@ -1,0 +1,1 @@
+note to self: try and put the options in .babelrc into webpack-config

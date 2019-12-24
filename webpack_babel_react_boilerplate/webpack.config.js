@@ -1,7 +1,8 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  entry: './src/app.js',
+  entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js'
@@ -25,5 +26,10 @@ module.exports = {
     contentBase: './public',
     port: 8080,
     host: '0.0.0.0'
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    })
+  ]
 };

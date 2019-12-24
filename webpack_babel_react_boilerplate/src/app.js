@@ -1,8 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, {Component} from 'react'
+// import React from 'react';
+// import ReactDOM from 'react-dom';
 import './styles/styles.scss';
 
-// const template = React.createElement('p', {}, 'Hello from react');
-const template = <p>Hello from react</p>;
+class App extends Component 
+{
+    render() {
+        return (
+            <div>
+                <h1>hello react render</h1>
+            </div>
+        );
+    }
+}
 
-ReactDOM.render(template, document.getElementById('root'));
+export default App;

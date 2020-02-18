@@ -1,0 +1,39 @@
+{
+	"name": "react-express-webpack-babel-setup",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon --exec babel-node server.js",
+		"dev-server": "webpack-dev-server"
+	},
+	"keywords": [],
+	"author": "Jatin Varlyani",
+	"license": "ISC",
+	"dependencies": {
+		"@babel/runtime": "7.2.0",
+		"express": "^4.16.4",
+		"react": "^16.8.1",
+		"react-dom": "^16.8.1"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.8.4",
+		"@babel/core": "^7.8.4",
+		"@babel/node": "^7.8.4",
+		"@babel/preset-env": "^7.8.4",
+		"@babel/preset-react": "^7.8.3",
+		"babel-loader": "^8.0.6",
+		"css-loader": "^3.4.2",
+		"file": "^0.2.2",
+		"html-webpack-plugin": "^3.2.0",
+		"http-proxy-middleware": "^0.21.0",
+		"loader": "^2.1.1",
+		"node-sass": "^4.13.1",
+		"nodemon": "^2.0.2",
+		"react-svg-loader": "^3.0.3",
+		"style-loader": "^1.1.3",
+		"webpack": "^4.41.6",
+		"webpack-cli": "^3.3.11",
+		"webpack-dev-server": "^3.10.3"
+	}
+}

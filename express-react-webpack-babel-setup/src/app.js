@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const title = 'My Simple Express React Webpack Babel Setup Environment';
+const title = 'Hello world';
 
 ReactDOM.render(
 	<div>{title}</div>,

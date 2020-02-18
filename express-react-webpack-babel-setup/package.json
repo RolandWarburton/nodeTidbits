@@ -8,7 +8,7 @@
 		"dev-server": "webpack-dev-server"
 	},
 	"keywords": [],
-	"author": "Jatin Varlyani",
+	"author": "Roland Warburton",
 	"license": "ISC",
 	"dependencies": {
 		"@babel/runtime": "7.2.0",

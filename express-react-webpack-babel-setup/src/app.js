@@ -1,9 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+function App({ message }) {
+    return (
+        <Fragment>
+            <h1>Hello World From React</h1>
+            <p>{message}</p>
+        </Fragment>
+    )
+}
 
-const title = 'Hello world';
-
-ReactDOM.render(
-	<div>{title}</div>,
-	document.getElementById('app')
-);
+export default App;

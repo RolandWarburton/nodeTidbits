@@ -26,10 +26,10 @@ This project is using Server Side Rending (SSR) to serve react components to the
 # Running
 You must build the app first before running it (the dir `/public` should exist before nodemon or the webpack dev server runs)
 ### Building
-```npm run build``` => ```webpack``` \
+```npm run build``` => ```webpack -wd``` \
 Creates the /public folder which is required for running the app
 ### Running
-```npm run start``` => ```nodemon server.js``` \
+```npm run start``` => ```concurrently \"webpack -wd\" \"nodemon --exec babel-node server.js\"``` \
 Nodemon will monitor for changes
 
 # Notes

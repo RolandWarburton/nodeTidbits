@@ -1,0 +1,42 @@
+{
+  "name": "rrssr",
+  "version": "1.0.0",
+  "description": "rrssr",
+  "main": "index.js",
+  "scripts": {
+    "build:server": "webpack --config webpack.production.js",
+    "monitor:server": "nodemon build/bundle.js",
+    "dev-server": "concurrently \"webpack -w --config webpack.development.js\" \"npm run monitor:server\"",
+    "compress:server": "npm run build:server && uglifyjs build/bundle.js --compress --mangle -o build/bundle.js",
+    "compress:client": "npm run build:server && uglifyjs build/public/client_bundle.js --compress --mangle -o build/public/client_bundle.js",
+    "build:compress": "npm run compress:server & npm run compress:client"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "compression-webpack-plugin": "^3.1.0",
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.2",
+    "uglify-js": "^3.8.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.6",
+    "webpack-bundle-analyzer": "^3.6.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
+  }
+}

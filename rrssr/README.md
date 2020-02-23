@@ -8,19 +8,15 @@ This project is using Server Side Rending (SSR) to serve react components to the
 ```
 ├── package.json
 ├── package-lock.json
-├── public
-│   ├── bundle.js
-│   └── index.html
-├── README.md
+├── readme.md
 ├── server.js
 ├── src
-│   ├── app.js
-│   ├── index.html
-│   ├── index.js
-│   └── routes
-│       └── ssr.js
-└── webpack.config.js
-
+│   ├── app.js
+│   ├── client.js
+│   └── pages
+│       └── Home.js
+├── webpack.development.js
+└── webpack.production.js
 ```
 
 # Running

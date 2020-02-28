@@ -1,0 +1,20 @@
+[
+    {
+        "path": "index",
+        "template": "./template.ejs",
+        "title": "index",
+        "pagename": "index"
+    },
+    {
+        "path": "about",
+        "template": "./template.ejs",
+        "title": "about",
+        "pagename": "about"
+    },
+    {
+        "path": "about/whois",
+        "template": "./template.ejs",
+        "title": "whois",
+        "pagename": "whois"
+    }
+]

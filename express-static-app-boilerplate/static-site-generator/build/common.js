@@ -1,3 +1,4 @@
 module.exports = {
-	"devtool": "eval-source-map"
+	"devtool": "eval-source-map",
+	stats: 'errors-only'
 };

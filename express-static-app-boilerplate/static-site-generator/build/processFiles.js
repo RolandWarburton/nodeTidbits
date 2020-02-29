@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const generatePage = require('./generatePage')
 const readFiles = require('./readFiles')
-const projectPath = '/home/roland/Documents/Projects/nodeTidbits/express-static-app-boilerplate/static-site-generator/src/views'
 
 const pages = []
 const routes = []

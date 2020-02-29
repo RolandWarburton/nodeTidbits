@@ -9,7 +9,9 @@ const generatePage = ({ path, template, title, target } = {}) => ({
 			template: template,
 			title: title,
 			target: target, //populate this location with the js file in src/views/....
-			favicon: './src/media/favicon.ico'
+			favicon: './src/media/favicon.ico',
+			showErrors: false,
+			minify: true
 		})
 	]
 });

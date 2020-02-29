@@ -8,7 +8,8 @@ const generatePage = ({ path, template, title, target } = {}) => ({
 			filename: `${path && path + '/'}index.html`, // output file to here
 			template: template,
 			title: title,
-			target: target //populate this location with the js file in src/views/....
+			target: target, //populate this location with the js file in src/views/....
+			favicon: './src/media/favicon.ico'
 		})
 	]
 });

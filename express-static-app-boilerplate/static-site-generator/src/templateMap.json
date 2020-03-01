@@ -2,5 +2,13 @@
     {
         "title": "index",
         "path": "./template.ejs"
+    },
+    {
+        "title": "about",
+        "path": "./template-list-item.ejs"
+    },
+    {
+        "title": "whois",
+        "path": "./template-list-item.ejs"
     }
 ]

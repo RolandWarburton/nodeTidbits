@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // target is derrived from template.ejs
 // it should be the path name of the file 
-const generatePage = ({ path, template, title, target } = {}) => ({
+const generatePage = ({ path, template, title, target, previous, next } = {}) => ({
 	plugins: [
 		new HtmlWebpackPlugin({
 			filename: `${path && path + '/'}index.html`, // output file to here
@@ -11,7 +11,9 @@ const generatePage = ({ path, template, title, target } = {}) => ({
 			target: target, //populate this location with the js file in src/views/....
 			favicon: './src/media/favicon.ico',
 			showErrors: false,
-			minify: true
+			minify: true,
+			previous: previous,
+			next: next
 		})
 	]
 });

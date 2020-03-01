@@ -23,15 +23,22 @@ const getTemplate = (templates, key) => {
 	return result
 }
 
-routes.map(route => {
+routes.forEach((route, i) => {
 	const template = getTemplate(templates, route.title)
-	console.log(`loading ./${route.filepath} The path will be ${route.filepath && route.filepath + '/'}index.html`)
+	const currentDir = route.filepath.split("/")[0]
+	const nextDir = (routes[i + 1] !== undefined) ? routes[i + 1].filepath.split("/")[0] : ''
+	const prevDir = (routes[i - 1] !== undefined) ? routes[i - 1].filepath.split("/")[0] : ''
+	// console.log(`loading ./${route.filepath} The path will be ${route.filepath && route.filepath + '/'}index.html`)
 	pages.push(generatePage({
 		path: (route.title === 'index') ? '' : route.filepath, //where to write the file to in dist
 		template: template, // the base template to use
 		title: route.title, // the title of the page
-		target: route.filepath // tells EJS to use this js file to populate its template body 
+		target: route.filepath, // tells EJS to use this js file to populate its template body 
+		previous: (prevDir && prevDir != 'index') ? routes[i - 1] : '',
+		next: (nextDir && nextDir != 'index') ? routes[i + 1] : ''
 	}))
+	// console.log(`file: ${route.title}. next: ${nextDir}. prev: ${prevDir}`)
+	// console.log(`${route.title} - ${route.filepath}`)
 })
 
 module.exports = pages;

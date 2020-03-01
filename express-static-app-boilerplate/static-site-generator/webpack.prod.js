@@ -10,6 +10,13 @@ const config = merge(devserver, optimization, moduleRules, ...pages, {
     stats: 'errors-only',
     output: {
         crossOriginLoading: 'anonymous'
+    },
+    entry: {
+        app: './src/index.js'
+      },
+    output: {
+        filename: 'bundle.js',
+        path: __dirname + '/dist'
     }
 });
 

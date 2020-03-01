@@ -1,16 +1,19 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
+	plugins: [new MiniCssExtractPlugin()],
 	module: {
 		rules: [
 			{
 				test: /\.scss$/i,
 				use: [
-					// Creates `style` nodes from JS strings
-					'style-loader',
-					// Translates CSS into CommonJS
+					{
+						loader: MiniCssExtractPlugin.loader,
+					},
 					'css-loader',
-					// Compiles Sass to CSS
+					'postcss-loader',
 					'sass-loader',
-				]
+				],
 			},
 			{
 				test: /\.(png|svg|jpg|gif)$/,

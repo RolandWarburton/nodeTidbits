@@ -10,7 +10,7 @@ module.exports = {
 			exclude: /\/node_modules/,
 			sourceMap: false
 		})]
-	},
-	plugins: [new CompressionPlugin()]
+	}
+	// plugins: [new CompressionPlugin()]
 }
 

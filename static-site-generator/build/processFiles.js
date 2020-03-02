@@ -34,7 +34,7 @@ routes.forEach((route, i) => {
 		previous: (prevDir && prevDir != 'index') ? routes[i - 1] : '',
 		next: (nextDir && nextDir != 'index') ? routes[i + 1] : ''
 	}))
+	console.log(route)
 })
-console.log(pages)
 
 module.exports = pages;

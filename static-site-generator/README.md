@@ -1,4 +1,4 @@
-# Express and Webpack Boilerplate App
+# SSG Webpack Boilerplate App
 Building modern websites that are fast ⚡
 
 This is an experiment in creating websites that are compiled with modern bundlers like webpack, 

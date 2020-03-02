@@ -1,0 +1,14 @@
+[
+    {
+        "title": "about",
+        "directory": true,
+        "path": "about",
+        "templatePath": "./template-list-item.ejs"
+    },
+    {
+        "title": "about",
+        "directory": false,
+        "path": "",
+        "templatePath": "./template-list-item.ejs"
+    }
+]

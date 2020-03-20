@@ -6,7 +6,7 @@ const path = require('path')
 // filepath should be the full filepath. or at least from 'src/views/filename.js'
 function readFiles(filepath, processFiles) {
     // split the full path (/home/roland/...) and get the string after views. EG: about, notes/blog
-    let relFilePath = filepath.split("/static-site-generator/src/views/")[1]
+    let relFilePath = filepath.split("/SSG_webpack_boilerplate/src/views/")[1]
     processFiles({
         // return the filepath without an extension
         filepath: relFilePath.split('.')[0],

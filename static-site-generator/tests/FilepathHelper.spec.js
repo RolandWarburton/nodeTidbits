@@ -58,8 +58,6 @@ describe("Test filePath", () => {
     test("Check if a path exists", () => {
         const routeMap = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'temp/routeMap.json')))
 
-        expect(fp.checkIfPathExists(routeMap, 'Notes/')).toEqual(true);
-        expect(fp.checkIfPathExists(routeMap, 'Notes/Bookmarks')).toEqual(true);
-        expect(fp.checkIfPathExists(routeMap, 'Notes/Bookmarks/')).toEqual(true);
+        expect(fp.checkIfPathExists(routeMap, 'notes/notes')).toEqual(true);
     });
 });

@@ -11,12 +11,7 @@ describe("Test ListAllFilesInDir", () => {
     test("returns the index of an a filepath in its own directory", () => {
         const routeMap = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'temp/routeMap.json')))
 
-        // Notes/Tools referring to Notes/Tools.html (not the directory Notes/Tools)
-        expect(getRoutePositionInDir(routeMap, 'Notes/Tools')).toEqual(3);
-        expect(getRoutePositionInDir(routeMap, 'Notes/Tools/ToolsIntro')).toEqual(0);
-        expect(getRoutePositionInDir(routeMap, 'index')).toEqual(3);
-        expect(getRoutePositionInDir(routeMap, 'Writing')).toEqual(2);
-        expect(getRoutePositionInDir(routeMap, 'Notes')).toEqual(1);
-        expect(getRoutePositionInDir(routeMap, 'About')).toEqual(0);
+        // foo/bar referring to foo/bar/index.html (not the directory foo/bar)
+        expect(getRoutePositionInDir(routeMap, 'index')).toEqual(0);
     });
 });

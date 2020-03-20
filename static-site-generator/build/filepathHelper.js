@@ -32,26 +32,6 @@ const checkIfPathExists = function (targets, filepath) {
     return result
 }
 
-// // returns true if the filepath is in a directory
-// // return true if the filepath exists in routeMap.json
-// const checkIfRouteExistsInDir = function (targets, filepath) {
-//     // result needs to be declared here and set later 
-//     // because if 'return false' is at the bottom the function it will always return false
-//     filepath = sanitizeHTMLfilepath(filepath)
-//     let result = false
-//     if (checkIfPathExists(targets, filepath)) {
-//         targets.forEach((route) => {
-//             const filepathArray = filepathToArray(filepath)
-//             if (filepathArray[filepathArray.length - 1]) {
-
-//             }
-//         })
-//     } else {
-//         result = false
-//     }
-//     return result
-// }
-
 // return the last element of a filepath
 const last = function (filepath) {
     if (!Array.isArray(filepath)) filepath = filepathToArray(filepath)

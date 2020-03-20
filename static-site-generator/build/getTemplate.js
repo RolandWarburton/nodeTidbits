@@ -1,10 +1,8 @@
-// find the template based on the routes title in the list of templates (/templateMap.json)
+// find the template based on the routes title in the list of templates (/routeMap.json)
 // if the key doesnt exist return a default template
 
 module.exports = getTemplate = (templates, key) => {
-    const files = null
-    const directories = null
-    let result = 'template.ejs'
+    let result = 'templates/template.ejs'
     // console.log(`getting template for ${key}`)
     templates.forEach((template) => {
         if (template.title === key) {

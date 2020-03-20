@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const readFile = require('./readFile')
 
 // Takes a function called processFiles to pass each file back to its caller 
 function readFiles(dir, processFiles, traverse = true) {
@@ -13,12 +14,9 @@ function readFiles(dir, processFiles, traverse = true) {
 			const isDir = stat.isDirectory();
 
 			if (isFile) {
-				// get the relative path from /src/views/....
-				const filepath = /\/src\/views\/(.+)/.exec(dir + '/' + path.parse(filename).name)[1]
-				processFiles({ filepath, title })
-				// console.log(`found: ${filepath}`)
+				readFile(filepath, processFiles)
 			}
-			
+
 			// keep traversing new directories to map out the entire site
 			if (traverse && title != 'partials' && isDir) {
 				readFiles(filepath, processFiles)

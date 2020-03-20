@@ -1,7 +1,10 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-	plugins: [new MiniCssExtractPlugin()],
+	plugins: [new MiniCssExtractPlugin({
+		filename: '[name].css',
+		chunkFilename: '[id].css'
+	})],
 	module: {
 		rules: [
 			{
@@ -9,6 +12,10 @@ module.exports = {
 				use: [
 					{
 						loader: MiniCssExtractPlugin.loader,
+						options: {
+							publicPath: 'dist',
+							filename: "[name].css",
+						}
 					},
 					'css-loader',
 					'postcss-loader',

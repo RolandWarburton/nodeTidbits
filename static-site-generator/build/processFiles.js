@@ -8,9 +8,17 @@ const getRoutePositionInDir = require('./getRoutePositionInDir')
 const listFilesInDir = require('./listFilesInDir')
 const getPrevRoute = require('./getPrevRoute')
 
-// path where all the views are stored
+// get some file directories to use later
+const appRootPath = path.resolve(process.cwd())
 const viewsDir = path.resolve(process.cwd(), 'src/views')
 console.log(path.resolve(process.cwd(), 'src/views'))
+
+
+// make the temp dir if it doesnt exist
+const tempDir = path.resolve(appRootPath, 'temp')
+if (!fs.existsSync(tempDir)) {
+	fs.mkdirSync(tempDir);
+}
 
 // list of HtmlWebpackPlugin pages for building 
 const pages = []
@@ -40,15 +48,15 @@ routes.forEach((route, i) => {
 	// get a next and previous route for the filepath in the current directory
 	// if no route is found or the relative index +-1 becomes undefined it will not be rendered
 	// relativeIndex gets the position the the current routes filepath. eg 0, 1 etc within its directory
-	// const relativeIndex = getRoutePositionInDir(routes, route.filepath)
+	const relativeIndex = getRoutePositionInDir(routes, route.filepath)
 
 	// get all the files in the parent of this filepath
-	// const filesInDir = listFilesInDir(routes, getPrevRoute(routes, route.filepath))
+	const filesInDir = listFilesInDir(routes, getPrevRoute(routes, route.filepath))
 
 	// set next/prev filepath to one of the files in the parent directory of this filepath
-	// +-1 to get the offset neighbour from its relative index in the parent directory 
-	// const next = filesInDir[relativeIndex + 1]
-	// const prev = filesInDir[relativeIndex - 1]
+	// +-1 to get the offset neighbor from its relative index in the parent directory 
+	const next = filesInDir[relativeIndex + 1]
+	const prev = filesInDir[relativeIndex - 1]
 	
 	pages.push(generatePage({
 		// Path needs to take a path without an extension. Examples: about, notes/blog
@@ -61,8 +69,8 @@ routes.forEach((route, i) => {
 		// tells EJS to use this js file to populate its template body 
 		target: route.filepath,
 		// previous and next in same route dir (if there is one)
-		previous: 'prev',
-		next: 'next',
+		previous: prev,
+		next: next,
 		// favicon requires config.output.publicPath = '/' in webpack to work
 		favicon: './src/media/favicon.ico'
 	}))

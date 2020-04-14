@@ -1,0 +1,8 @@
+#musicContainer {
+	display: flex;
+	flex-direction: row;
+	.musicItem {
+		width: 100px;
+		height: 100px;
+	}
+}

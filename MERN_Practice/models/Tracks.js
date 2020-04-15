@@ -9,9 +9,9 @@ const Track = mongoose.Schema({
 		type: String,
 		require: true
 	},
-	img: {
-		data: Buffer, 
-		contentType: String
+	imgName: {
+		type: String,
+		require: true
 	}
 
 }, { collection: 'testCollection' })

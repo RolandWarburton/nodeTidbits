@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react"
 import Navigation from '../Navigation'
 import api from '../../../api'
+import { v5 as uuidv5 } from 'uuid';
 
 import { useTable, usePagination } from 'react-table'
 
@@ -92,7 +93,12 @@ const Home = () => {
 	// do something when you complete the form
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
-		api.createTrack({ title: valueTitle, desc: valueDesc, data });
+		const form = new FormData()
+		const input = document.querySelector('input[type=file]').files[0]
+		form.append("image", input)
+		form.append("title", valueTitle)
+		form.append("desc", valueDesc)
+		api.createTrack(form);
 		alert(`Submitting Name ${valueTitle}, ${valueDesc}`)
 		resetTitle()
 		resetDesc()
@@ -119,6 +125,16 @@ const Home = () => {
 				Header: 'Title',
 				accessor: 'title',
 				filterable: true
+			},
+			{
+				Header: 'ImgName',
+				accessor: 'imgName',
+				// row and original are callbacks (i didn't define them)
+				Cell: ({row, original}) => {
+					console.log(original)
+					return <div><img height={100} src={"/api/track/" + row.values.title} /></div>
+				},
+				filterable: false
 			}
 		], [])
 

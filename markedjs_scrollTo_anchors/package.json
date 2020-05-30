@@ -1,0 +1,19 @@
+{
+  "name": "markedjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "node server.js",
+    "monitor": "nodemon build.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "marked": "^1.1.0",
+    "nodemon": "^2.0.4"
+  }
+}

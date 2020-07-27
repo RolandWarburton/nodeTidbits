@@ -1,0 +1,15 @@
+{
+	"name": "app",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js"
+	},
+	"keywords": [],
+	"author": "roland",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.17.1"
+	}
+}

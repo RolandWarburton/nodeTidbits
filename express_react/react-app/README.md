@@ -1,4 +1,4 @@
-## Express and react boilerplate
+# Express and react boilerplate
 
 How to get started serving a react app through express. I plan on using this to try and implement express-session later.
 

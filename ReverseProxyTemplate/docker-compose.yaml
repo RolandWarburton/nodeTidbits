@@ -1,0 +1,19 @@
+version: "2.2"
+services:
+    test:
+        container_name: test
+        image: test
+        restart: always
+        environment:
+            - VIRTUAL_HOST=0x8.host
+            - LETSENCRYPT_HOST=0x8.host
+            - LETSENCRYPT_EMAIL=warburtonroland@gmail.com
+            - VIRTUAL_PORT=3000
+            - VIRTUAL_NETWORK=proxy-network
+        ports:
+            - 3000 
+
+networks:
+    default:
+        external:
+            name: nginx-proxy

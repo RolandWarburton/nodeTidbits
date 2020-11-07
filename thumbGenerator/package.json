@@ -1,0 +1,21 @@
+{
+	"name": "genthumbs",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "DEBUG=thumb:write node index.js",
+		"clean:cache": "rm cache/*"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"debug": "^4.2.0",
+		"fluent-ffmpeg": "^2.1.2",
+		"node-thumbnail": "^0.15.0",
+		"progress": "^2.0.3",
+		"readdirp": "^3.5.0",
+		"uuid": "^8.3.1"
+	}
+}

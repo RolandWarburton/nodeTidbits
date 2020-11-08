@@ -1,0 +1,17 @@
+[Unit]
+Description=genthumbs for laci archive
+Documentation=https://github.com/RolandWarburton/nodeTidbits/tree/master/thumbGenerator
+After=network.target
+
+[Service]
+Environment=DEBUG=thumb:write
+Environment=ffmpeg=/usr/bin/ffmpeg
+Type=simple
+User=roland
+WorkingDirectory=/home/roland/scripts/genthumbs
+ExecStart=/home/roland/.nvm/versions/node/v12.18.4/bin/node /home/roland/scripts/genthumbs/cron.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+

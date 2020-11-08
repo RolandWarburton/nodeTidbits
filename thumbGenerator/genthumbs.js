@@ -1,108 +1,67 @@
-const ffmpeg = require("fluent-ffmpeg");
-const ProgressBar = require("progress");
+const genthumbs = require("./genthumb");
+const readFiles = require("./readFiles");
 const debug = require("debug")("thumb:info");
-const write = require("debug")("thumb:write");
-const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
-const { promisify } = require("util");
-const { v4 } = require("uuid");
-const { once, EventEmitter } = require("events");
-require("dotenv").config();
+require("dotenv").config({ path: "/home/roland/scripts/genthumbs/.env" });
 
-const genFrame = async (ts, videoPath) => {
-	const ee = new EventEmitter();
-	const imageID = v4();
-	ffmpeg(videoPath)
-		.seekInput(ts)
-		.output(`./cache/${imageID}.jpg`)
-		.outputOptions(
-			"-frames",
-			"1" // Capture just one frame of the video
-		)
-		.on("end", function () {
-			ee.emit("written", imageID);
-		})
-		.run();
-
-	const [res] = await once(ee, "written");
-	return `./cache/${res}.jpg`;
-};
-
-const generateTimestamps = (numberOfFrames, fspace) => {
-	const timestamps = [];
-	for (const i of Array(numberOfFrames).keys()) {
-		timestamps.push(
-			new Date(i * fspace * 1000).toISOString().substr(14, 5) + ".00"
-		);
-	}
-	return timestamps;
-};
-
-module.exports = async (videoPath, callback) => {
-	const getmeta = promisify(ffmpeg.ffprobe);
-	const stats = await getmeta(videoPath);
-	const duration = stats.format.duration;
-	const fspace = 60;
-
-	// dont make thumbs for videos shorter then the frame spacer
-	if (duration < fspace) {
-		callback(false);
-		return false;
-	}
-
-	const numberOfFrames = Math.floor(duration / 60);
-	const timestamps = generateTimestamps(numberOfFrames, fspace);
-	const videoPathBase = path.parse(videoPath).dir;
-	const videoName = path.parse(videoPath).name;
-
-	// create a progress bar
-	const ssProgressBar = new ProgressBar(":etas :bar :percent", {
-		total: numberOfFrames,
+const getDate = () => {
+	return new Date().toLocaleString("en-AU", {
+		hour: "numeric",
+		minute: "numeric",
+		hour12: true,
 	});
+};
 
-	// store the filepaths to the cached single thumbnails
-	const cachePlaceholders = [];
+const log = (message) => {
+	fs.appendFileSync(
+		path.resolve(process.env.BASE, "log.txt"),
+		`${getDate()}: ${message}\n`
+	);
+	debug(`${getDate()}: ${message}`);
+};
 
-	// for each timestamp ffmpeg extract the frame and write it to cache
-	for (const ts of timestamps) {
-		cachePlaceholders.push(await genFrame(ts, videoPath));
-		if (process.env.PROGRESSBAR) ssProgressBar.tick();
+log("Started logging");
+
+thumbs = async () => {
+	// create the cache directory
+	if (!fs.existsSync(process.env.CACHEDIR)) {
+		fs.linkSync(process.env.CACHEDIR);
 	}
 
-	debug(`done caching ${cachePlaceholders.length} placeholders`);
-	debug(`generating montage...`);
+	// read all the files
+	const files = await readFiles();
+	console.log(
+		`${new Date().toISOString()}: read ${files.length} pending jobs`
+	);
 
-	// used to calculate a square for montage output tiles
-	const sideLength = Math.round(numberOfFrames / 2);
+	// read in the completed jobs history
+	const completed = fs
+		.readFileSync(path.resolve(process.env.BASE, "completed"), "utf-8")
+		.split("\n")
+		.filter(Boolean);
+	console.log(
+		`${new Date().toISOString()}: read ${completed.length} completed jobs`
+	);
 
-	// generate and write the montage
-	const writePath = `${videoPathBase}/${videoName}.png`;
-	const montage = spawn(`montage`, [
-		...cachePlaceholders,
-		"-geometry",
-		`+0+0`,
-		"-tile",
-		`x${sideLength}`,
-		writePath,
-	]);
-
-	// when its finished generating a montage
-	montage.on("close", (code) => {
-		if (code != 0) {
-			debug(`Error code ${code} when generating the montage`);
+	// loop through each file and process it
+	for (const video of files) {
+		debug(`processing ${video.fullPath}`);
+		if (!completed.includes(video.fullPath)) {
+			genthumbs(video.fullPath, (result) => {
+				debug(`logged ${video.basename}`);
+				fs.appendFileSync(
+					path.resolve(process.env.BASE, "completed"),
+					video.fullPath + "\n"
+				);
+				log(`Wrote thumbnail for ${video.basename}`);
+			});
 		} else {
-			// clean up and delete the cached thumb files
-			write(`Finished generating montage ${videoName}`);
-			debug("cleaning up");
-			for (filepath of cachePlaceholders) {
-				fs.unlink(path.resolve(process.env.BASE, filepath), (err) => {
-					if (err) console.log(err);
-				});
-			}
-
-			// Run the callback with "all good"
-			callback(true);
+			debug(`skipping ${video.basename}`);
 		}
-	});
+	}
 };
+
+thumbs();
+
+module.exports = thumbs;

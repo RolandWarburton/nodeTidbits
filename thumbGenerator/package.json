@@ -4,16 +4,19 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "DEBUG=thumb:write node index.js",
+		"start": "DEBUG=thumb:write node genthumbs.js",
+		"start:cron": " DEBUG=thumb:write node cron.js",
 		"clean:cache": "rm cache/*"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"cron": "^1.8.2",
 		"debug": "^4.2.0",
 		"dotenv": "^8.2.0",
 		"fluent-ffmpeg": "^2.1.2",
+		"nodemon": "^2.0.6",
 		"progress": "^2.0.3",
 		"readdirp": "^3.5.0",
 		"uuid": "^8.3.1"

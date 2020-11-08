@@ -1,2 +1,0 @@
-2020-11-08T02:15:47.297Z: Started logging
-2020-11-08T02:15:48.673Z: Started logging

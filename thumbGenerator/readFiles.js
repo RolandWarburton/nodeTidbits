@@ -1,8 +1,8 @@
-const fs = require("fs");
 const readdirp = require("readdirp");
+require("dotenv").config();
 
 module.exports = async () => {
-	const filepath = "/file/path/here";
+	const filepath = process.env.TARGET;
 	const options = {
 		fileFilter: ["*.mp4"],
 		depth: 1,

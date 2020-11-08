@@ -8,6 +8,7 @@ const path = require("path");
 const { promisify } = require("util");
 const { v4 } = require("uuid");
 const { once, EventEmitter } = require("events");
+require("dotenv").config();
 
 const genFrame = async (ts, videoPath) => {
 	const ee = new EventEmitter();
@@ -95,7 +96,7 @@ module.exports = async (videoPath, callback) => {
 			write(`Finished generating montage ${videoName}`);
 			debug("cleaning up");
 			for (filepath of cachePlaceholders) {
-				fs.unlink(`${filepath}`, (err) => {
+				fs.unlink(path.resolve(process.env.BASE, filepath), (err) => {
 					if (err) console.log(err);
 				});
 			}

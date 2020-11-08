@@ -2,9 +2,11 @@ const genthumbs = require("./genthumbs");
 const readFiles = require("./readFiles");
 const debug = require("debug")("thumbgen");
 const fs = require("fs");
+const path = require("path");
+require("dotenv").config();
 
-if (!fs.existsSync("./cache")) {
-	fs.linkSync("./cache");
+if (!fs.existsSync(process.env.CACHEDIR)) {
+	fs.linkSync(process.env.CACHEDIR);
 }
 
 thumbs = async () => {
@@ -13,7 +15,6 @@ thumbs = async () => {
 		.readFileSync("./completed", "utf-8")
 		.split("\n")
 		.filter(Boolean);
-	console.log(completed);
 	console.log("done reading files");
 
 	for (const video of files) {
@@ -21,7 +22,10 @@ thumbs = async () => {
 		if (!completed.includes(video.fullPath)) {
 			genthumbs(video.fullPath, (result) => {
 				debug(`logged ${video.basename}`);
-				fs.appendFileSync("./completed", video.fullPath + "\n");
+				fs.appendFileSync(
+					path.resolve(process.env.BASE, "completed"),
+					video.fullPath + "\n"
+				);
 			});
 		} else {
 			debug(`skipping ${video.basename}`);

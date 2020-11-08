@@ -5,6 +5,15 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 
+const log = (message) => {
+	fs.appendFileSync(
+		path.resolve(process.env.BASE, "log.txt"),
+		`${new Date().toISOString()}: ${message}\n`
+	);
+};
+
+log("Started logging");
+
 if (!fs.existsSync(process.env.CACHEDIR)) {
 	fs.linkSync(process.env.CACHEDIR);
 }
@@ -26,6 +35,7 @@ thumbs = async () => {
 					path.resolve(process.env.BASE, "completed"),
 					video.fullPath + "\n"
 				);
+				log(`Wrote thumbnail for ${video.basename}`);
 			});
 		} else {
 			debug(`skipping ${video.basename}`);

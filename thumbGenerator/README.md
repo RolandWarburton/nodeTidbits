@@ -7,3 +7,9 @@ I created this tool to review large amounts of footage. It uses ffmpeg to slice 
 **Note** the tool is prone to crashing if you give it anything weird (not sure what those crash conditions are, but they exist). It should be pretty fast but will eat cores for breakfast if you let it at more than 500GB of video to process.
 
 Improvements to come in stability (maybe).
+
+Example: Run once an hour on the first min.
+
+```none
+0 * * * * /home/roland/.nvm/versions/node/v12.18.4/bin/node /home/roland/scripts/genthumbs/index.js
+```

@@ -1,0 +1,25 @@
+{
+	"name": "redux-practice",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "webpack-dev-server --config ./webpack.config.js",
+		"start:dev": "webpack-dev-server",
+		"start:functional": "node --experimental-modules functional_programming/higher_order_functions"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"webpack": "^5.4.0",
+		"webpack-cli": "^3.3.12",
+		"webpack-dev-server": "^3.11.0"
+	},
+	"dependencies": {
+		"immer": "^7.0.14",
+		"immutable": "^4.0.0-rc.12",
+		"lodash": "^4.17.20",
+		"redux": "^4.0.5"
+	}
+}

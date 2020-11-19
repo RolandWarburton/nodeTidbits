@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "DEBUG=thumb:write node genthumbs.js",
+		"start:debug": "DEBUG=thumb:* node genthumbs.js",
 		"start:cron": " DEBUG=thumb:write node cron.js",
 		"clean:cache": "rm cache/*"
 	},

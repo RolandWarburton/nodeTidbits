@@ -16,7 +16,7 @@ const genFrame = async (ts, videoPath) => {
 	try {
 		ffmpeg(videoPath)
 			.seekInput(ts)
-			.output(`./cache/${imageID}.jpg`)
+			.output(`${process.env.CACHEDIR}/${imageID}.jpg`)
 			.outputOptions(
 				"-frames",
 				"1" // Capture just one frame of the video
@@ -43,6 +43,11 @@ const generateTimestamps = (numberOfFrames, fspace) => {
 	return timestamps;
 };
 
+/**
+ *
+ * @param {String} videoPath Path to the video to generate a montage sheet for
+ * @param {Function} callback Callback that returns true or false based once the montage has been written
+ */
 module.exports = async (videoPath, callback) => {
 	const getmeta = promisify(ffmpeg.ffprobe);
 	const stats = await getmeta(videoPath);

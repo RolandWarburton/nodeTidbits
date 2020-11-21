@@ -1,25 +1,9 @@
 const genthumbs = require("./genthumb");
 const readFiles = require("./readFiles");
-const debug = require("debug")("thumb:info");
 const fs = require("fs");
 const path = require("path");
+const { debug, info, write, log } = require("./loggers");
 require("dotenv").config({ path: "/home/roland/scripts/genthumbs/.env" });
-
-const getDate = () => {
-	return new Date().toLocaleString("en-AU", {
-		hour: "numeric",
-		minute: "numeric",
-		hour12: true,
-	});
-};
-
-const log = (message) => {
-	fs.appendFileSync(
-		path.resolve(process.env.BASE, "log.txt"),
-		`${getDate()}: ${message}\n`
-	);
-	debug(`${getDate()}: ${message}`);
-};
 
 log("Started logging");
 
@@ -37,11 +21,12 @@ thumbs = async () => {
 
 	// create the cache directory
 	if (!fs.existsSync(process.env.CACHEDIR)) {
-		debug("created cache dir");
-		fs.linkSync(process.env.CACHEDIR);
+		fs.mkdirSync(process.env.CACHEDIR);
+		info("created cache dir");
 	}
 
 	// read all the files
+	info("reading files");
 	const pending = await readFiles();
 	console.log(
 		`${new Date().toISOString()}: read ${pending.length} pending jobs`
@@ -66,7 +51,7 @@ thumbs = async () => {
 	// loop through each file and process it
 	for (const video of todo) {
 		debug(`processing ${video.fullPath}`);
-		genthumbs(video.fullPath, (result) => {
+		await genthumbs(video.fullPath, (result) => {
 			debug(`logged ${video.basename}`);
 			fs.appendFileSync(
 				path.resolve(process.env.BASE, "completed"),

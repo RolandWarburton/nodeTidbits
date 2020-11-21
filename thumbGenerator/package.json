@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "DEBUG=thumb:write node genthumbs.js",
-		"start:debug": "DEBUG=thumb:* node genthumbs.js",
+		"start:debug": "DEBUG=* node genthumbs.js",
 		"start:cron": " DEBUG=thumb:write node cron.js",
 		"clean:cache": "rm cache/*"
 	},
@@ -20,6 +20,7 @@
 		"nodemon": "^2.0.6",
 		"progress": "^2.0.3",
 		"readdirp": "^3.5.0",
+		"supports-color": "^7.2.0",
 		"uuid": "^8.3.1"
 	}
 }

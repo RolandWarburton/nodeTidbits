@@ -1,11 +1,5 @@
 # Thumbnail generator
 
-## System requirements
-
-* Node 12+
-* Imagemagick 6.9.10-23 Q16
-* FFMPEG 4.1.6-1, make sure you have ffprobe as well
-
 Generates a thumbnails for a directory of mp4s recursively. Intended to be run as a cron using the provided `cron.js`.
 
 I created this tool to review large amounts of footage. It uses ffmpeg to slice thumbnails every X seconds from a video and imagemagick montage to build a thumbnail sheet thats placed in the same directory as the video. It should be pretty fast but will eat cores for breakfast if you let it at more than 500GB of video to process.

@@ -45,7 +45,7 @@ thumbs = async () => {
 	// for each value of the possible tasks
 	const todo = pending.filter((value) => {
 		// if task X does not exist within completed then return it
-		if (!completed.includes(value)) return value;
+		if (!completed.includes(value.fullPath)) return value;
 	});
 
 	// loop through each file and process it

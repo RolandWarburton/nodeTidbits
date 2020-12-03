@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Login</title>
+		<style>
+			html {
+				background: #121212;
+				color: #dedede;
+				font-family: Impact, "Arial Narrow Bold", sans-serif;
+			}
+			#app {
+				padding: 5rem;
+			}
+			fieldset {
+				background: #262626;
+				border: none;
+			}
+			input {
+				display: block;
+				background-color: #4d5983;
+				border: none;
+				margin: 1em 0;
+				padding: 0.5em;
+				color: #dedede;
+				font-weight: bold;
+			}
+			label {
+				display: inline;
+			}
+			.row {
+				display: flex;
+				flex-direction: column;
+			}
+		</style>
+
+		<script>
+			async function submitHandler(e) {
+				e.preventDefault();
+				console.log("submitting");
+
+				const form = document.querySelector("form");
+
+				const _id = form.querySelector("#_id");
+				const name = form.querySelector("#name");
+				const api_key = form.querySelector("#api_key");
+
+				const postUrl = "http://devel:3000/auth/login";
+
+				const body = {
+					_id: _id.value,
+					name: name.value,
+				};
+
+				// determine if we are using the api key or the cred fields
+				const authMethod = api_key.value != "" ? "api_key" : "cred";
+
+				const reqHeaders = new Headers();
+				reqHeaders.append("Content-Type", "application/json");
+				reqHeaders.append("typ", authMethod); // "api_key" or "cred"
+				reqHeaders.append("api_key", api_key.value || undefined);
+
+				const options = {
+					method: "POST",
+					body: JSON.stringify(body),
+					credentials: "include",
+					headers: reqHeaders,
+				};
+
+				const result = await (await fetch(postUrl, options)).json();
+				console.log(result);
+			}
+		</script>
+	</head>
+	<body>
+		<div id="app">
+			<h1>Login</h1>
+			<form onsubmit="return submitHandler(event);">
+				<fieldset>
+					<span>Login with _id and name</span>
+					<div class="row">
+						<input id="_id" placeholder="id" />
+						<input id="name" placeholder="name" />
+					</div>
+				</fieldset>
+
+				<fieldset>
+					<span>Or you can use an api key</span>
+					<div class="row">
+						<input id="api_key" placeholder="api key" />
+					</div>
+				</fieldset>
+
+				<fieldset>
+					<button type="submit">SUBMIT</button>
+				</fieldset>
+			</form>
+		</div>
+	</body>
+</html>

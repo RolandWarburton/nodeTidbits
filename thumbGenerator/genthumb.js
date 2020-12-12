@@ -4,36 +4,10 @@ const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const { promisify } = require("util");
-const { v4 } = require("uuid");
 const { debug, info, write, log } = require("./loggers");
 const { once, EventEmitter } = require("events");
+const genFrame = require("./genFrame");
 require("dotenv").config();
-
-const genFrame = async (ts, videoPath) => {
-	const ee = new EventEmitter();
-	const imageID = v4();
-	try {
-		ffmpeg(videoPath)
-			.seekInput(ts)
-			.output(`${process.env.CACHEDIR}/${imageID}.jpg`)
-			.outputOptions(
-				"-frames",
-				"1", // Capture just one frame of the video
-				"-vf",
-				"scale=320:-1" // scale it down to something small (-1 maintain aspect ratio)
-			)
-			.on("end", function () {
-				ee.emit("written", imageID);
-			})
-			.run();
-
-		const [res] = await once(ee, "written");
-		// info(`${process.env.CACHEDIR}/${res}.jpg`);
-		return `${process.env.CACHEDIR}/${res}.jpg`;
-	} catch (err) {
-		console.error(err);
-	}
-};
 
 const generateTimestamps = (numberOfFrames, fspace) => {
 	const timestamps = [];
@@ -50,22 +24,22 @@ const generateTimestamps = (numberOfFrames, fspace) => {
  * @param {String} videoPath Path to the video to generate a montage sheet for
  * @param {Function} callback Callback that returns true or false based once the montage has been written
  */
-module.exports = async (videoPath, callback) => {
+module.exports = async (videoPath) => {
 	const getmeta = promisify(ffmpeg.ffprobe);
 	const stats = await getmeta(videoPath);
 	const duration = stats.format.duration;
 	const fspace = 60;
 
 	// dont make thumbs for videos shorter then the frame spacer
-	if (duration < fspace) {
-		callback(false);
-		return false;
-	}
-
 	const numberOfFrames = Math.floor(duration / 60);
-	const timestamps = generateTimestamps(numberOfFrames, fspace);
 	const videoPathBase = path.parse(videoPath).dir;
 	const videoName = path.parse(videoPath).name;
+	const timestamps = generateTimestamps(numberOfFrames, fspace);
+	const writePath = `${videoPathBase}/${videoName}.png`.replace(/ /g, "_");
+
+	if (duration < fspace) {
+		return writePath;
+	}
 
 	// create a progress bar
 	const ssProgressBar = new ProgressBar(":etas :bar :percent", {
@@ -77,12 +51,28 @@ module.exports = async (videoPath, callback) => {
 
 	// for each timestamp ffmpeg extract the frame and write it to cache
 	for (const ts of timestamps) {
-		cachePlaceholders.push(await genFrame(ts, videoPath));
+		await genFrame(ffmpeg, ts, videoPath)
+			.then((framePath) => {
+				cachePlaceholders.push(framePath);
+			})
+			.catch((err) => {
+				debug(err);
+			});
+
 		if (process.env.PROGRESSBAR) ssProgressBar.tick();
 		// debug(`generated frame `)
 	}
 
 	debug(`done caching ${cachePlaceholders.length} placeholders`);
+
+	// do a check to make sure if any images were successfully generated
+	if (cachePlaceholders.length === 0) {
+		info(
+			`skipping ${videoName} because no placeholders were successfully generated`
+		);
+		return false;
+	}
+
 	debug(`generating montage...`);
 
 	// used to calculate a square for montage output tiles
@@ -92,8 +82,6 @@ module.exports = async (videoPath, callback) => {
 	);
 
 	// generate and write the montage
-	const writePath = `${videoPathBase}/${videoName}.png`.replace(/ /g, "_");
-
 	// -geometry <width>x<height>+<border width>+<border height>{!}{<}{>}
 	// -tile <width>x<height>
 	const args = [
@@ -108,28 +96,32 @@ module.exports = async (videoPath, callback) => {
 
 	// when its finished generating a montage this event emitter fires
 	const ee = new EventEmitter();
-	montage.on("close", (code) => {
-		debug(`emitted close for ${writePath}`);
-		if (code != 0) {
-			debug(`Error code ${code} when generating the montage`);
-		} else {
-			ee.emit("complete", writePath);
-			// clean up and delete the cached thumb files
-			write(`Finished generating montage ${videoName}`);
-			debug("cleaning up");
-			for (filepath of cachePlaceholders) {
-				fs.unlink(path.resolve(process.env.BASE, filepath), (err) => {
-					if (err) console.log(err);
-				});
+	montage
+		.on("close", (code) => {
+			debug(`emitted close for ${writePath}`);
+			if (code != 0) {
+				debug(`Error code ${code} when generating the montage`);
+			} else {
+				ee.emit("complete", writePath);
+				// clean up and delete the cached thumb files
+				write(`Finished generating montage ${videoName}`);
+				debug("cleaning up");
+				for (filepath of cachePlaceholders) {
+					fs.unlink(
+						path.resolve(process.env.BASE, filepath),
+						(err) => {
+							if (err) console.log(err);
+						}
+					);
+				}
 			}
-
-			// Run the callback with "all good"
-			callback(true);
-		}
-	});
+		})
+		.on("error", (err) => {
+			debug(err);
+		});
 
 	// if this following line is here then it will wait for the montage to finish generating before continuing
 	// this stops the computer from dying if theres a lot of stuff to do
 	await once(ee, "complete");
-	return true;
+	return writePath;
 };

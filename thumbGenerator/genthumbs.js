@@ -1,4 +1,4 @@
-const genthumbs = require("./genthumb");
+const genthumb = require("./genthumb");
 const readFiles = require("./readFiles");
 const fs = require("fs");
 const path = require("path");
@@ -51,14 +51,17 @@ thumbs = async () => {
 	// loop through each file and process it
 	for (const video of todo) {
 		debug(`processing ${video.fullPath}`);
-		await genthumbs(video.fullPath, (result) => {
-			debug(`logged ${video.basename}`);
-			fs.appendFileSync(
-				path.resolve(process.env.BASE, "completed"),
-				video.fullPath + "\n"
-			);
-			log(`Wrote thumbnail for ${video.basename}`);
-		});
+		await genthumb(video.fullPath)
+			.then((writePath) => {
+				debug(`logged ${video.basename}`);
+				fs.appendFileSync(
+					path.resolve(process.env.BASE, "completed"),
+					video.fullPath + "\n"
+				);
+				if (!writePath) throw new Error("thumbnail generation failed");
+				log(`Wrote thumbnail for ${video.basename}`);
+			})
+			.catch((err) => info("Thumbnail generation failed"));
 	}
 };
 

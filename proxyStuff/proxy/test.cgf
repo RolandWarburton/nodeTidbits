@@ -1,0 +1,31 @@
+defaults
+    mode http
+
+frontend http80
+    bind 0.0.0.0:80
+    timeout client 60s
+
+    acl app1 path_end -i /app1
+    acl app2 path_end -i /app2
+
+    use_backend app1Servers if app1
+    use_backend app2Servers if app2
+
+    default_backend allservers
+
+backend app1Servers
+    timeout connect 10s
+    timeout server 100s
+    server server3001 127.0.0.1:3001
+
+backend app2Servers
+    timeout connect 10s
+    timeout server 100s
+    server server3002 127.0.0.1:3002
+
+backend allservers
+    timeout connect 10s
+    timeout server 100s
+    server server3000 127.0.0.1:3001
+    server server3001 127.0.0.1:3002
+

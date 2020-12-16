@@ -1,0 +1,12 @@
+version: "3"
+services:
+    website:
+        container_name: express
+        image: express
+        environment:
+            - PORT=3000
+        ports:
+            - 3000:3000
+        # uncomment this to mount the files to your host to restart the node process server within the container
+        volumes:
+            - ./app:/usr/src/app

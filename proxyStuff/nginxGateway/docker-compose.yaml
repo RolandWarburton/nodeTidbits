@@ -1,0 +1,17 @@
+version: "3.0"
+services:
+    gateway:
+        container_name: "gateway"
+        image: gateway
+        ports:
+            - "80:80"
+            - "443:443"
+        network_mode: "host"
+        volumes:
+            # - "./nginx_basic.conf:/etc/nginx/nginx.conf"
+            - "/etc/letsencrypt/live/0x8.host/fullchain.pem:/etc/letsencrypt/live/0x8.host/fullchain.pem"
+            - "/etc/letsencrypt/live/0x8.host/privkey.pem:/etc/letsencrypt/live/0x8.host/privkey.pem"
+        # - "./html/index.html:/var/www/html/index.html"
+#networks:
+#        docker-network:
+#                driver: bridge

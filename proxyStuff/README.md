@@ -1,98 +1,40 @@
-# Express container boilerplate
+# Nginx Docker Gateway
 
-## Building and running
+An nginx docker pattern example.
 
-## Explanation
+## Acquire certs
 
-### Create a route robin for all servers
+The first step is to install certbot onto your server and acquire a certificate for your domain.
+Make sure to use the `--standalone` flag to avoid modification of any existing configs.
 
 ```none
-defaults
-    mode http
-
-frontend http80
-    bind 0.0.0.0:80
-    timeout client 60s
-    mode http
-    default_backend allservers
-
-backend allservers
-    timeout connect 10s
-    timeout server 100s
-    mode http
-    server server3000 127.0.0.1:3001
-    server server3001 127.0.0.1:3002
+sudo certbot certonly --standalone
 ```
 
-### Separate each server into its own distinct group of server/s
+Then enter your domain name and locate the certificate files. **DO NOT move them**.
 
-urls ending in `/app1` are directed to `app1Servers` backend and round robin those servers only.
+![generated keys](https://i.imgur.com/ekiUqvI.png)
 
-```none
-defaults
-    mode http
+## Running
 
-frontend http80
-    bind 0.0.0.0:80
-    timeout client 60s
+Build your gateway container
 
-    acl app1 path_end -i /app1
-    acl app2 path_end -i /app2
-
-    use_backend app1Servers if app1
-    use_backend app2Servers if app2
-
-    default_backend allservers
-
-backend app1Servers
-    timeout connect 10s
-    timeout server 100s
-    server server3001 127.0.0.1:3001
-
-backend app2Servers
-    timeout connect 10s
-    timeout server 100s
-    server server3002 127.0.0.1:3002
-
-backend allservers
-    timeout connect 10s
-    timeout server 100s
-    server server3000 127.0.0.1:3001
-    server server3001 127.0.0.1:3002
+```output
+docker build -t gateway .
 ```
 
-### Prevent round robin behavior
+Start your backend services. Use your own services or the provided scripts
 
-If you have a stateful application (for example when running some type of cookie session based authentication), you require the same IP to bind to
-the same server, this can be done by modifying the backend for a particular server with `balance source`, for example.
-
-```none
-backend app1Servers
-    timeout connect 10s
-    timeout server 100s
-	balance source
-    server server3001 127.0.0.1:3001
+```output
+cd webServers
+spawnWebsiteOne.sh
+spawnWebsiteTwo.sh
 ```
 
+Then start your gateway, start without -d for now to investigate any issues, 50x, 40x errors etc.
 
-### Build the container
-
-```none
-docker build -t express .
-```
-
-### Run using docker-compose
-
-Comes pre-baked to listen on port 3000
-
-```none
+```output
 docker-compose up
 ```
 
-### Run using docker run
-
-Allows you to specify what port this container should run on, be sure to change the exposed port when you build the container as well
-
-```none
-docker run -p 3001:3000 -e PORT=3000 -e LABEL=3001 express
-```
+good luck, have fun.

@@ -17,6 +17,12 @@ Then enter your domain name and locate the certificate files. **DO NOT move them
 
 ## Running
 
+Create your external docker network to allow container to access each other across different docker-compose files.
+
+```output
+docker network create gateway_network
+```
+
 Start your backend services. Use your own services or the provided template servers in `/webServers`.
 Start your gateway without `-d` for now to investigate any issues, 50x, 40x errors etc.
 

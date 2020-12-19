@@ -7,7 +7,7 @@ services:
             - PORT=3000
             - LABEL=3001
         ports:
-            - 3001:3000
+            - 127.0.0.1:3001:3000
     template02:
         container_name: template02
         image: express
@@ -15,4 +15,9 @@ services:
             - PORT=3000
             - LABEL=3002
         ports:
-            - 3002:3000
+            - 127.0.0.1:3002:3000
+
+networks:
+    default:
+        external:
+            name: gateway_network

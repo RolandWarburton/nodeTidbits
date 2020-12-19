@@ -4,7 +4,7 @@ services:
         container_name: template01
         image: express
         environment:
-            - PORT=3001
+            - PORT=3000
             - LABEL=3001
         ports:
             - 3001:3000
@@ -12,7 +12,7 @@ services:
         container_name: template02
         image: express
         environment:
-            - PORT=3002
+            - PORT=3000
             - LABEL=3002
         ports:
             - 3002:3000

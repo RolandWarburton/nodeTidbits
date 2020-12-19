@@ -17,22 +17,22 @@ Then enter your domain name and locate the certificate files. **DO NOT move them
 
 ## Running
 
-Build your gateway container
+Start your backend services. Use your own services or the provided template servers in `/webServers`.
+Start your gateway without `-d` for now to investigate any issues, 50x, 40x errors etc.
 
-```output
-docker build -t gateway .
-```
-
-Start your backend services. Use your own services or the provided scripts
+Build your web service backends.
 
 ```output
 cd webServers
+docker build -t express .
 docker-compose up
 ```
 
-Then start your gateway, start without -d for now to investigate any issues, 50x, 40x errors etc.
+Build your gateway container.
 
 ```output
+cd nginxGateway
+docker build -t gateway .
 docker-compose up
 ```
 

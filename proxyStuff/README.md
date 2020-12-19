@@ -27,8 +27,7 @@ Start your backend services. Use your own services or the provided scripts
 
 ```output
 cd webServers
-spawnWebsiteOne.sh
-spawnWebsiteTwo.sh
+docker-compose up
 ```
 
 Then start your gateway, start without -d for now to investigate any issues, 50x, 40x errors etc.

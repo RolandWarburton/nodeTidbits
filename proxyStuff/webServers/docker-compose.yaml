@@ -1,12 +1,18 @@
 version: "3"
 services:
-    website:
-        container_name: express
+    template01:
+        container_name: template01
         image: express
         environment:
-            - PORT=3000
+            - PORT=3001
+            - LABEL=3001
         ports:
-            - 3000:3000
-        # uncomment this to mount the files to your host to restart the node process server within the container
-        volumes:
-            - ./app:/usr/src/app
+            - 3001:3000
+    template02:
+        container_name: template02
+        image: express
+        environment:
+            - PORT=3002
+            - LABEL=3002
+        ports:
+            - 3002:3000

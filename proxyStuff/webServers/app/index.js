@@ -25,9 +25,13 @@ app.use((req, res, next) => {
 });
 
 app.get("*", (req, res, next) => {
-	res.render("index", {
-		title: "root",
-		body: `internally: ${port}. externally: ${process.env.LABEL}.`,
+	// return some information back to the browser
+	return res.status(200).json({
+		baseUrl: req.baseUrl,
 		path: req.path,
+		hostname: req.hostname,
+		originalUrl: req.originalUrl,
+		params: req.params,
+		query: req.query,
 	});
 });

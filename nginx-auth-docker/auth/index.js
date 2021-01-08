@@ -28,17 +28,22 @@ app.listen(8080, () => {
 		console.log("auth listening on 8080");
 });
 
-// This route can be hit by any client as part of the sub-request in nginx.
-// The purpose of this route is to check the cookie in the browser and return 200 if its good,
-// If there isnt any cookie then the isAuthenticated middleware will return 401
-// and nginx will catch that http status and forward the user to /auth/promptlogin to log them in and assign a cookie to the browser
-app.get("/auth", [isAuthenticated], (req, res, next) => {
-	console.log("authenticated", new Date());
-	return res.status(200).json({ status: 200 });
-});
-
 // render the login page
 app.get("/auth/promptlogin", promptLogin);
 
 // process logins
 app.post("/auth/promptlogin", processLogin);
+
+// This route can be hit by any client as part of the sub-request in nginx.
+// The purpose of this route is to check the cookie in the browser and return 200 if its good,
+// If there isnt any cookie then the isAuthenticated middleware will return 401
+// and nginx will catch that http status and forward the user to /auth/promptlogin to log them in and assign a cookie to the browser
+const authPass = (req, res, next) => {
+	console.log("authenticated", new Date());
+	return res.status(200).json({ status: 200 });
+};
+
+app.get("/auth", [isAuthenticated], authPass);
+
+// fallback route
+app.get("*", [isAuthenticated], authPass);

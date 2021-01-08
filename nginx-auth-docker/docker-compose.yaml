@@ -1,0 +1,33 @@
+version: '3'
+services: 
+    gwy:
+        build: ./gwy
+        container_name: gateway
+        ports:
+            - "80:8080"
+        links:
+            - ms1
+            - auth
+        # logging:
+        #     driver: none
+
+
+    auth:
+        build: ./auth
+        container_name: authentication
+        volumes:
+            - ./auth:/usr/src/app
+        expose:
+            - "8080"
+        environment:
+            - DEBUG_FORMAT="%m %D"
+
+    ms1:
+        build: ./ms1
+        container_name: microservice_one
+        volumes:
+            - ./ms1:/usr/src/app
+        expose:
+            - "8080"
+        environment:
+            - DEBUG_FORMAT="%m %D"

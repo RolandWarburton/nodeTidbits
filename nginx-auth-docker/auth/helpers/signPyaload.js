@@ -7,6 +7,7 @@ require("dotenv").config();
  */
 const signPayload = (body) => {
 	const secret = process.env.CLIENT_SECRET;
+	console.log(`signed with ${secret}`);
 	const jsonBody = body;
 	let sig =
 		"sha1=" +

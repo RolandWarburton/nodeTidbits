@@ -3,6 +3,7 @@ require("dotenv");
 
 const genJwtToken = (payload, secret = "password") =>
 	new Promise((resolve, reject) => {
+		console.log(`signed with ${secret}`);
 		jwt.sign(
 			{ ...payload },
 			secret,

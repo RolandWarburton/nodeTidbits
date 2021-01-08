@@ -11,16 +11,18 @@ module.exports = async (req, res, next) => {
 		console.log("user");
 		try {
 			// verify the token
+			console.log(`decoding with ${process.env.CLIENT_SECRET}`);
 			jwt.verify(user, process.env.CLIENT_SECRET);
 
 			// if we verified the token successfully then keep going
 			next();
 		} catch (err) {
 			// there was a token but it was incorrect or forged
+			console.log("failed to verify the token");
+			console.log(err);
 			return res.status(401).json({ success: false });
 		}
 	} else {
 		return res.status(401).json({ success: false });
 	}
 };
-

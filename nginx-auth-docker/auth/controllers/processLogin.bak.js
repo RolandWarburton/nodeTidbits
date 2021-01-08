@@ -1,5 +1,4 @@
 const assert = require("assert");
-require("dotenv");
 const { genJwtToken } = require("../helpers/jwt_helper");
 
 // mock a database to validate the user against
@@ -46,10 +45,7 @@ module.exports = async (req, res, next) => {
 		};
 
 		// generate a payload token and give the browser a cookie
-		const payload = await genJwtToken(
-			payloadBody,
-			process.env.CLIENT_SECRET
-		);
+		const payload = await genJwtToken(payloadBody, "clientsecret");
 		res.cookie("user", payload);
 
 		// then redirect the user back to the service url with the cookie and a 200 so they dont have to reauthenticate in the future

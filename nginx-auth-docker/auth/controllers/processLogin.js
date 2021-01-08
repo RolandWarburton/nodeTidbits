@@ -27,8 +27,8 @@ module.exports = async (req, res, next) => {
 		// we then pass this filter into the "database" to get the user
 		const user = findUser(userFilter);
 
+		console.log({ email: user.email, password: user.password });
 		console.log(userFilter);
-		console.log(user);
 
 		assert.deepStrictEqual(
 			{ email: user.email, password: user.password },
@@ -50,7 +50,7 @@ module.exports = async (req, res, next) => {
 			payloadBody,
 			process.env.CLIENT_SECRET
 		);
-		res.cookie("user", payload);
+		res.cookie("user", payload, { domain: ".rolandw.dev" });
 
 		// then redirect the user back to the service url with the cookie and a 200 so they dont have to reauthenticate in the future
 		console.log(`redirecting to ${serviceURL}`);
@@ -58,7 +58,7 @@ module.exports = async (req, res, next) => {
 		res.redirect(serviceURL);
 	} catch (err) {
 		// this block will be hit if the user details are incorrect or the user was not found etc
-		console.log(err.code || "failed to assert user against database");
+		console.log(err || "failed to assert user against database");
 
 		// Instead of redirecting to the serviceURL
 		// render the failed to log in page and use a 401

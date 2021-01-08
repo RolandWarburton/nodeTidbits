@@ -1,6 +1,19 @@
 # nginx-auth-docker
 
-Example of using auth_request in nginx to provide custom authenticator. The docker containers are coordinated using docker-compose
+Example of using auth_request in nginx to provide a custom authenticator. The docker containers are coordinated using docker-compose. Bootstrapped from [roylines/nginx-auth-docker](https://github.com/roylines/nginx-auth-docker).
+
+Additions to the project to suite my future projects.
+
+* Better code documentation
+* More fleshed out code flow
+* Implementation of RFC 7519 JWTs
+
+## TODO
+
+- [ ] Implement database on version 2
+- [ ] Test cookie interactions when crossing domains
+- [ ] Implement session time based management of cookies on auth backend
+- [ ] Investigate if cookies delete themselves after expiring or if i need to manage it
 
 ## bring up the stack
 

@@ -11,13 +11,13 @@ Additions to the project to suite my future projects.
 ## TODO
 
 - [ ] Implement database on version 2
-- [ ] Test cookie interactions when crossing domains
+- [x] Test cookie interactions when crossing domains: Works on subdomains at least which is what i want (see [dd8ffb9](https://github.com/RolandWarburton/nodeTidbits/commit/dd8ffb9bd09e53905452eff2647ef70fb2caf338))
 - [ ] Implement session time based management of cookies on auth backend
 - [ ] Investigate if cookies delete themselves after expiring or if i need to manage it
 
 ## bring up the stack
 
-```
+```none
 docker-compose build && docker-compose up
 ```
 
@@ -48,19 +48,23 @@ I had a problem where i wanted to use the same login across different applicatio
 
 **old system:**
 pros:
-- super fast
-- low resource
-- very secure (but not really because i implemented it)
+
+* super fast
+* low resource
+* very secure (but not really because i implemented it)
 
 cons:
-- limited cross-application authentication...
+
+* limited cross-application authentication...
 IE. framework doesnt allow a user to move between applications on the same domain
 
 **new system:*
 pros:
-- should maybe fix the cons of the old system
-- possibly easier to understand (not using any fancy code flow or techniques)
+
+* should maybe fix the cons of the old system
+* possibly easier to understand (not using any fancy code flow or techniques)
 
 cons:
-- single source of failure (unless i do redundant balancing)
-- i need to waste my time redoing authentication AGAIN
+
+* single source of failure (unless i do redundant balancing)
+* i need to waste my time redoing authentication AGAIN

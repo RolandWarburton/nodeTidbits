@@ -17,7 +17,7 @@
     "babel-loader": "^8.1.0",
     "html-webpack-plugin": "^4.0.4",
     "jest": "^25.2.7",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "postcss": "^7.0.27",
     "react-helmet": "^5.2.1",
     "sass-loader": "^8.0.2",
